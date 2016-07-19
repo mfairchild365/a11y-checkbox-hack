@@ -84,6 +84,9 @@
                     if ($('#toggle-1').is(':checked')) {
                         //send focus if checked
                         $('#content').focus();
+                    } else {
+                        //Otherwise, keep the button focused
+                        $(this).focus();
                     }
 
                     //Prevent default actions
