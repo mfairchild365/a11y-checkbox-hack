@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabs with ARIA</title>
+    <style>
+      input[type=checkbox] {
+          position: absolute;
+          top: -9999px;
+          left: -9999px;
+          /* For mobile, it's typically better to position checkbox on top of clickable
+             area and turn opacity to 0 instead. */
+      }
+
+      /* Default State */
+      div {
+          background: green;
+          width: 400px;
+          height: 100px;
+          line-height: 100px;
+          color: white;
+          text-align: center;
+          display: none;
+      }
+
+      /* Toggled State */
+      input[type=checkbox]:checked ~ div {
+          display: block;
+      }
+
+      label {
+          border: 1px solid;
+          padding: .5em;
+          margin-bottom: 1em;
+          background-color: #000;
+          color: #fff;
+          display:inline-block;
+      }
+    </style>
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <main>
+        <h1>Accessible version of the 'CSS ONLY "checkbox hack"'</h1>
+        <p>Note: base of this code was taken from <a href="https://css-tricks.com/the-checkbox-hack/">https://css-tricks.com/the-checkbox-hack/</a></p>
+        
+        <p>The "checkbox hack" can be used to provide complex functionality such as hide/showing content with 'pure css'. While it is a cool trick, it is also very inaccessible. The labels are not in the tab index, have incorrect semantics, and the usual keypress events do not work.</p>
+        
+        <p>This fiddle aims to fix these problems for situations. The better solution would be to remove the hack and replace it with a <code>&lt;button&gt;</code> element (and appropriate js for focus management). However, the better solution may not always be possible.
+        </p>
+        
+        <p>View page source for details (comments included)</p>
+        
+        <h2>Demo</h2>
+        <!-- added tabindex and role -->
+        <label for="toggle-1" tabindex="0" role="button">Click me</label>
+        
+        <!-- remove native tabindex and add role -->
+        <input type="checkbox" id="toggle-1" tabindex="-1" role="presentation">
+        
+        <!-- add tabindex so that it can be programtically focused -->
+        <div id="content" tabindex="-1">Control me</div>
+    </main>
+
+    <script type="text/javascript">
+        $('label').on('keydown', function(event){
+            //Support keyboard navigation
+            switch (event.which) {
+                case 13: //enter
+                case KEY_SPACE:
+                    //prevent event from bubbling
+                    event.stopPropagation;
+
+                    //Activate the checkbox
+                    $(this).click();
+
+                    if ($('#toggle-1').is(':checked')) {
+                        //send focus if checked
+                        $('#content').focus();
+                    }
+
+                    //Prevent default actions
+                    return false;
+            }
+        });
+    </script>
+</body>
+
+</html>
