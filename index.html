@@ -70,7 +70,11 @@
     </main>
 
     <script type="text/javascript">
-        $('label').on('keydown', function(event){
+        var $input = $('#toggle-1');
+        var $content = $('#content');
+        var $label = $('label');
+
+        $label.on('keydown', function(event){
             //Support keyboard navigation
             switch (event.which) {
                 case 13: //enter
@@ -79,19 +83,22 @@
                     event.stopPropagation();
 
                     //Activate the checkbox
-                    $(this).click();
-
-                    if ($('#toggle-1').is(':checked')) {
-                        //send focus if checked
-                        $('#content').focus();
-                    } else {
-                        //Otherwise, keep the button focused
-                        $(this).focus();
-                    }
+                    $label.click();
 
                     //Prevent default actions
                     return false;
             }
+        });
+        
+        //listen to 'change' event which will now fire on both keypress and click
+        $input.on('change', function(event) {
+            if ($input.is(':checked')) {
+                //send focus if checked
+                $content.focus();
+            } else {
+                //Otherwise, keep the button focused
+                $label.focus();
+            } 
         });
     </script>
 </body>
