@@ -7,11 +7,8 @@
     <title>a11y checkbox hack</title>
     <style>
       input[type=checkbox] {
-          position: absolute;
-          top: -9999px;
-          left: -9999px;
-          /* For mobile, it's typically better to position checkbox on top of clickable
-             area and turn opacity to 0 instead. */
+          /* We don't want the checkbox to appear to AT, so give it display:non (don't use opacity 0) */
+          display: none;
       }
 
       /* Default State */
@@ -65,8 +62,8 @@
         <!-- added tabindex and role -->
         <label for="toggle-1" tabindex="0" role="button">Click me</label>
         
-        <!-- remove native tabindex and add role -->
-        <input type="checkbox" id="toggle-1" tabindex="-1" role="presentation">
+        <!-- input is now display:none with CSS which will hide it from AT -->
+        <input type="checkbox" id="toggle-1">
         
         <!-- add tabindex so that it can be programtically focused -->
         <div id="content" tabindex="-1">Control me</div>
